@@ -3,9 +3,6 @@
 The tap contains installation metadata only. Release downloads require a Jeeva
 key, and neither the R2 bucket nor its objects have public access enabled.
 
-The first Jeeva Studio cask is awaiting the renamed release. No cask is
-published yet. Once it is available, prepare your download key as follows.
-
 Before installing, save the key locally without putting it into shell history:
 
 ```sh
@@ -22,7 +19,7 @@ The cask passes only the header-file path to curl. The secret is not embedded in
 Git, the URL, Homebrew cask metadata, or curl's command arguments. Do not enable
 curl tracing when downloading. Store this header file as a credential.
 
-Once published:
+Install or upgrade:
 
 ```sh
 brew tap jeevallc/jeeva
@@ -34,7 +31,8 @@ Homebrew installs the app into `/Applications` by default. Where that directory 
 not writable, use `--appdir="$HOME/Applications"`. The cask will install `Jeeva Studio.app` and link the
 bundled `jeeva` CLI into Homebrew's bin directory.
 
-The first release targets Apple Silicon. Its final package checksum and bundle
-contents will be verified before the cask is published.
+Version 0.21.0 targets Apple Silicon and macOS 14 or later. The app and DMG are
+signed, notarized and stapled. The CLI currently reports its crate version
+(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`0.21.0`).
 Revoking a download key blocks new downloads, not use of a previously downloaded
 app or a copy in Homebrew's local cache.
