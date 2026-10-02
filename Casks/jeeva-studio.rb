@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 cask "jeeva-studio" do
-  version "0.24.0"
-  sha256 "f49a61ba3f581ea1431ba385af5b9743f4c2f35942db7e4d1483677afb4dabb6"
+  version "0.26.1"
+  sha256 "e7ff3cf9546ebb63e322faf0ccd465b23fa8085714f3918e7c5e13785ffb8f48"
 
-  url "https://downloads.jeeva.io/releases/v0.24.0-app/Jeeva-Studio-v0.24.0-app-arm64.dmg",
+  url "https://downloads.jeeva.io/releases/v0.26.1-app/Jeeva-Studio-v0.26.1-app-arm64.dmg",
       header: "@#{Dir.home}/.config/jeeva/download-header"
   name "Jeeva Studio"
   desc "Native workspace for coding agents"
