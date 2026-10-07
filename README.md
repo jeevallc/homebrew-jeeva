@@ -31,8 +31,8 @@ Homebrew installs the app into `/Applications` by default. Where that directory 
 not writable, use `--appdir="$HOME/Applications"`. The cask will install `Jeeva Studio.app` and link the
 bundled `jeeva` CLI into Homebrew's bin directory.
 
-Version 0.33.1 targets Apple Silicon and macOS 14 or later. The app and DMG are
+Version 0.34.1 targets Apple Silicon and macOS 14 or later. The app and DMG are
 signed, notarized and stapled. The CLI currently reports its crate version
-(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`0.33.1`).
+(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`0.34.1`).
 Revoking a download key blocks new downloads, not use of a previously downloaded
 app or a copy in Homebrew's local cache.
