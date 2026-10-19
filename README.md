@@ -36,3 +36,47 @@ signed, notarized and stapled. The CLI currently reports its crate version
 (`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`0.59.0`).
 Revoking a download key blocks new downloads, not use of a previously downloaded
 app or a copy in Homebrew's local cache.
+
+## Licence delivery
+
+Install and upgrade download a signed licence from the same key-protected
+`downloads.jeeva.io` service as the app. The cask checks its SHA-256 and validity
+window, then calls the installed app's `jeeva org licence install` command to
+verify its signature and write `~/.config/jeeva/org/licence.json`. A failed
+download, checksum, validity or signature check fails the step without replacing
+an existing licence. Temporary downloads are removed. No licence or vendor
+signing secret belongs in this public repository.
+
+The current licence expires on **2026-11-17 at 23:25 UTC**. Homebrew reports the
+cask as `0.59.0,20261018`: the second component identifies the licence delivery,
+so users already on app version 0.59.0 receive it with `brew update` followed by
+`brew upgrade --cask jeevallc/jeeva/jeeva-studio`. `brew update` alone only updates
+metadata. If retrying a failed postflight on an installed current version, use
+`brew reinstall --cask jeevallc/jeeva/jeeva-studio` (add
+`--appdir="$HOME/Applications"` for a user-local installation).
+
+Before expiry, generate a new signed file with `script/release-30-day.sh licence`
+in the Jeeva source repository. Verify it with the released CLI, upload it to
+`jeeva-private-releases/releases/licences/<sha256>.json` with private/no-store
+caching, and check that missing/invalid download keys get HTTP 401. Update the
+licence URL, checksum, expiry documentation and second version component in this
+tap, then push. Keep the app version as the first component and its DMG URL and
+checksum tied to that release. A licence refresh requires `brew upgrade` (or a
+manual `jeeva org licence install`); the app does not automatically renew it.
+
+The download gateway's source is `distribution/worker.mjs`. It admits only
+versioned DMG/ZIP paths and content-addressed licence JSON paths, after checking
+the download key. When deploying it to the existing `jeeva-downloads` Worker,
+preserve the `DOWNLOAD_KEY_HASHES` secret, the `RELEASES` R2 binding, and its
+existing domain; do not enable public bucket access. The signing secret is not
+needed to distribute an already signed file.
+
+Validation:
+
+```sh
+node tests/downloads.mjs
+HOMEBREW_DEVELOPER=1 brew ruby tests/licence_postflight.rb
+```
+
+The cask uses Homebrew's current `postflight_steps` API. Run `brew update` before
+installing or upgrading so Homebrew understands it.
