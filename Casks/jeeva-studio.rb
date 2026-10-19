@@ -5,11 +5,12 @@ require "digest"
 require "json"
 require "time"
 require "tmpdir"
+config_directory = ARGV.fetch(1)
 Dir.mktmpdir("jeeva-licence-") do |directory|
   licence_file = File.join(directory, "licence.json")
   downloaded = system("/usr/bin/curl", *["--fail", "--silent", "--show-error", "--proto", "=https",
                         "--connect-timeout", "30", "--max-time", "120",
-                        "--header", "@#{Dir.home}/.config/jeeva/download-header",
+                        "--header", "@#{config_directory}/download-header",
                         "--output", licence_file,
                         "https://downloads.jeeva.io/releases/licences/e6f5633f6e26008da4dcfc7f26f81f9b8d6c8a396ae6c294d2cd4405ae25b32f.json"])
   raise "Jeeva licence download failed; the existing licence was not changed." unless downloaded
@@ -25,7 +26,7 @@ Dir.mktmpdir("jeeva-licence-") do |directory|
     raise "Jeeva licence is not currently valid; the existing licence was not changed."
   end
 
-  installed = system({ "JEEVA_CONFIG_DIR" => "#{Dir.home}/.config/jeeva" },
+  installed = system({ "JEEVA_CONFIG_DIR" => config_directory },
                      ARGV.fetch(0), "org", "licence", "install", licence_file)
   raise "Jeeva licence signature was refused; the existing licence was not changed." unless installed
 end
@@ -49,6 +50,8 @@ cask "jeeva-studio" do
 
   postflight_steps do
     run "/usr/bin/ruby", args: ["-e", licence_installer,
-                                "{{appdir}}/Jeeva Studio.app/Contents/Helpers/jeeva"]
+                                "{{appdir}}/Jeeva Studio.app/Contents/Helpers/jeeva",
+                                "#{Dir.home}/.config/jeeva"],
+                         writable_paths: [".config/jeeva"], writable_base: :home, network_access: true
   end
 end

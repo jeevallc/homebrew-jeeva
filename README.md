@@ -76,7 +76,13 @@ Validation:
 ```sh
 node tests/downloads.mjs
 HOMEBREW_DEVELOPER=1 brew ruby tests/licence_postflight.rb
+# Optional live test: requires the app in ~/Applications and a download key; installs the licence.
+HOMEBREW_DEVELOPER=1 brew ruby -- tests/licence_postflight.rb --sandbox
 ```
+
+The licence step explicitly declares network access and access to `~/.config/jeeva`
+for Homebrew’s sandbox. Its config path comes from Homebrew’s original home
+context because the sandbox replaces the child process’s home directory.
 
 The cask uses Homebrew's current `postflight_steps` API. Run `brew update` before
 installing or upgrading so Homebrew understands it.
