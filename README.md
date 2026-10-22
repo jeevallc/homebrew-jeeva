@@ -31,9 +31,9 @@ Homebrew installs the app into `/Applications` by default. Where that directory 
 not writable, use `--appdir="$HOME/Applications"`. The cask will install `Jeeva Studio.app` and link the
 bundled `jeeva` CLI into Homebrew's bin directory.
 
-Version 0.69.0 targets Apple Silicon and macOS 14 or later. The app and DMG are
+Version 0.70.0 targets Apple Silicon and macOS 14 or later. The app and DMG are
 signed, notarized and stapled. The CLI currently reports its crate version
-(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`0.69.0`).
+(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`0.70.0`).
 Revoking a download key blocks new downloads, not use of a previously downloaded
 app or a copy in Homebrew's local cache.
 
@@ -48,8 +48,8 @@ an existing licence. Temporary downloads are removed. No licence or vendor
 signing secret belongs in this public repository.
 
 The current licence expires on **2026-11-17 at 23:25 UTC**. Homebrew reports the
-cask as `0.69.0,20261018`: the second component identifies the licence delivery,
-and the signed licence remains compatible with 0.69.0. Upgrade from an older
+cask as `0.70.0,20261018`: the second component identifies the licence delivery,
+and the signed licence remains compatible with 0.70.0. Upgrade from an older
 release with `brew update` followed by
 `brew upgrade --cask jeevallc/jeeva/jeeva-studio`. `brew update` alone only updates
 metadata. If retrying a failed postflight on an installed current version, use
