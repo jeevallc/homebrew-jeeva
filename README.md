@@ -89,3 +89,32 @@ The cask uses Homebrew's current `postflight_steps` API. Run `brew update` befor
 installing or upgrading so Homebrew understands it.
 
 The 0.74.0 cask uses the standard app build. Video tools can be installed from Settings > Studio; the larger release variant with bundled video tools is not selected by this cask.
+
+## Bundled video tools
+
+`jeeva-studio-bundled` installs the same app with Node.js, HyperFrames, headless
+Chrome, FFmpeg and tracking models carried in the app (about 1 GB download).
+It uses the same download key and signed licence installation as `jeeva-studio`.
+The two casks conflict because they install the same app and CLI.
+
+For a new installation:
+
+```sh
+brew update
+brew install --cask --appdir="$HOME/Applications" jeevallc/jeeva/jeeva-studio-bundled
+```
+
+To switch from the standard cask, quit Jeeva, then run:
+
+```sh
+brew uninstall --cask jeevallc/jeeva/jeeva-studio
+brew install --cask --appdir="$HOME/Applications" jeevallc/jeeva/jeeva-studio-bundled
+```
+
+Do not use `--zap`: a normal uninstall preserves user configuration and licence.
+Future updates use `brew upgrade --cask jeevallc/jeeva/jeeva-studio-bundled`.
+Validate the bundled cask with:
+
+```sh
+HOMEBREW_DEVELOPER=1 brew ruby -- tests/licence_postflight.rb jeeva-studio-bundled
+```
