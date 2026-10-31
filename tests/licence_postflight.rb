@@ -15,7 +15,7 @@ other_name = cask_name == "jeeva-studio" ? "jeeva-studio-bundled" : "jeeva-studi
 raise "variant conflict missing" unless base_cask.conflicts_with[:cask].include?(other_name)
 other_source = File.read(File.expand_path("../Casks/#{other_name}.rb", __dir__))
 raise "licence installers diverged" unless source.split('cask "', 2).first == other_source.split('cask "', 2).first
-raise "upgrade not offered" unless base_cask.version > base_cask.version.class.new("0.81.0,20261018")
+raise "upgrade not offered" unless base_cask.version > base_cask.version.class.new("0.83.0,20261018")
 raise "auth missing" unless base_cask.url.specs[:headers] == ["@#{Dir.home}/.config/jeeva/download-header"]
 postflight = base_cask.artifacts.find { |artifact| artifact.is_a?(Cask::Artifact::PostflightSteps) }
 step = postflight.steps.fetch(0)
