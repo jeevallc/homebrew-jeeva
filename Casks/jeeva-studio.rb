@@ -45,7 +45,7 @@ cask "jeeva-studio" do
   depends_on arch: :arm64
   depends_on macos: :sonoma
 
-  conflicts_with cask: "jeeva-studio-bundled"
+  conflicts_with cask: ["jeeva-studio-bundled", "jeeva-studio-complete"]
 
   app "Jeeva Studio.app"
   binary "#{appdir}/Jeeva Studio.app/Contents/Helpers/jeeva", target: "jeeva"

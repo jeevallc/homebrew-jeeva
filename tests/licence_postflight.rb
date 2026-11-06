@@ -11,13 +11,20 @@ cask_name = ARGV.shift || "jeeva-studio"
 source = File.read(File.expand_path("../Casks/#{cask_name}.rb", __dir__))
 original_hash = source.match(/licences\/([a-f0-9]{64})\.json/)[1]
 base_cask = Cask::CaskLoader::FromContentLoader.new(source).load(config: nil)
-other_name = cask_name == "jeeva-studio" ? "jeeva-studio-bundled" : "jeeva-studio"
-raise "variant conflict missing" unless base_cask.conflicts_with[:cask].include?(other_name)
-other_source = File.read(File.expand_path("../Casks/#{other_name}.rb", __dir__))
-raise "licence installers diverged" unless source.split('cask "', 2).first == other_source.split('cask "', 2).first
+siblings = %w[jeeva-studio jeeva-studio-bundled jeeva-studio-complete] - [cask_name]
+siblings.each do |other_name|
+  raise "variant conflict missing" unless base_cask.conflicts_with[:cask].include?(other_name)
+  other_source = File.read(File.expand_path("../Casks/#{other_name}.rb", __dir__))
+  raise "licence installers diverged" unless source.split('cask "', 2).first == other_source.split('cask "', 2).first
+end
 raise "upgrade not offered" unless Version.new(base_cask.version) > Version.new("0.109.0,20261018")
 raise "auth missing" unless base_cask.url.specs[:headers] == ["@#{Dir.home}/.config/jeeva/download-header"]
 postflight = base_cask.artifacts.find { |artifact| artifact.is_a?(Cask::Artifact::PostflightSteps) }
+if cask_name == "jeeva-studio-complete"
+  model_step = postflight.steps.fetch(1)
+  raise "model step requests network" if model_step["network_access"]
+  raise "offline model installer missing" unless model_step["args"].first.end_with?("/Local Models/install.rb")
+end
 step = postflight.steps.fetch(0)
 raise "network access missing" unless step["network_access"]
 raise "real config argument missing" unless step["args"].last == "#{Dir.home}/.config/jeeva"

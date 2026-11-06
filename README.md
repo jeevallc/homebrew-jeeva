@@ -118,3 +118,41 @@ Validate the bundled cask with:
 ```sh
 HOMEBREW_DEVELOPER=1 brew ruby -- tests/licence_postflight.rb jeeva-studio-bundled
 ```
+
+## Corporate install with local models
+
+On Apple silicon with macOS 15 or later and at least 16 GB of memory, save the
+download key as described above, then install:
+
+```sh
+brew install --cask jeevallc/jeeva/jeeva-studio-complete
+```
+
+The complete disk image includes Studio's video tools, Pocket TTS and tracking
+models, the Clef-flash decision helper and its weights, MPNet for default
+recall, BGE-small for library search and mxbai for reranking. Homebrew fetches
+the image and signed Jeeva licence from `downloads.jeeva.io` with the same key.
+The model installer reads the image locally, verifies the weights, and installs
+them for the current user under `~/.config/jeeva`. Allow about 25 GB of free
+disk space for the download, staging and model caches. Installing from the tap
+also requires access to Homebrew and its tap metadata, or an internal mirror.
+
+All three casks install the same application. To switch, quit Jeeva, uninstall
+the current cask without `--zap`, then run the install command above. Use
+`brew upgrade --cask jeevallc/jeeva/jeeva-studio-complete` for subsequent complete
+releases. The signed licence has the expiry documented above. The model files
+persist in the user's config directory across ordinary uninstalls.
+
+Leave recall set to **MPNet** for this offline package. The optional EmbeddingGemma
+alternative has separate distribution terms and is outside this image. Apple
+Intelligence is provisioned by macOS. Ollama/LM Studio models, coding-agent
+CLIs and cloud services have their own installation or connectivity requirements.
+
+Release maintainers can rebuild the model payload from the pinned files in
+`distribution/models/manifest.json` using
+`python3 distribution/models/stage.py <jeeva-config-dir> "<image-root>/Local Models"`.
+Start with the matching Studio build; verify its `Contents/Helpers/jeeva-decision-helper`
+and `Contents/Resources/mlx.metallib`, build both from the release source when
+needed, then sign and notarize the app and final disk image. Update the complete
+cask only after the protected image and licence are verified. Keep the weights
+in private release storage and keep their notices in the image.
