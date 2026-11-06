@@ -1,4 +1,4 @@
-"""Stage only the pinned model files for the complete Homebrew disk image."""
+"""Stage only the pinned model files for the independent Homebrew model pack."""
 import argparse
 import hashlib
 import json
@@ -7,7 +7,7 @@ import shutil
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("cache", type=Path, help="Jeeva config directory containing the verified models")
-parser.add_argument("destination", type=Path, help="New Local Models directory in the disk image")
+parser.add_argument("destination", type=Path, help="New Local Models directory in the model pack")
 args = parser.parse_args()
 source_dir = Path(__file__).resolve().parent
 manifest = json.loads((source_dir / "manifest.json").read_text())
