@@ -33,10 +33,10 @@ end
 RUBY
 
 cask "jeeva-studio-bundled" do
-  version "0.112.0,20261018"
-  sha256 "723922e1ac6911e04de7b99669a83346678fe64e48a1fa9914ab71b92f5a1101"
+  version "0.112.1,20261018"
+  sha256 "47c7dd98a35474db022f6e9c5d65f7ab2748234139426728b99deb6fe41ca453"
 
-  url "https://downloads.jeeva.io/releases/v0.112.0-app/Jeeva-v0.112.0-app-studio-arm64.dmg",
+  url "https://downloads.jeeva.io/releases/v0.112.1-app/Jeeva-v0.112.1-app-studio-arm64.dmg",
       header: "@#{Dir.home}/.config/jeeva/download-header"
   name "Jeeva Studio (Bundled Video Tools)"
   desc "Native workspace for coding agents with bundled video tools"
