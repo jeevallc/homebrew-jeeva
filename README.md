@@ -156,3 +156,25 @@ and `Contents/Resources/mlx.metallib`, build both from the release source when
 needed, then sign and notarize the app and final disk image. Update the complete
 cask only after the protected image and licence are verified. Keep the weights
 in private release storage and keep their notices in the image.
+
+## Install local models once, separately from Studio
+
+On Apple silicon with macOS 15 or later and at least 16 GB of memory, use the
+same download key configured above:
+
+```sh
+brew install --cask jeevallc/jeeva/jeeva-local-models
+```
+
+This pack has its own version. Install or upgrade the standard or bundled-tools
+Studio cask separately to avoid downloading weights with each app release.
+The pack can be installed before the app. It uses a private installer CLI and
+places no app in Applications or command on PATH.
+
+For the user running Homebrew, Clef lives in `~/.config/jeeva/clef/weights`
+and its installation record in `~/.config/jeeva/clef/install.json`. MPNet,
+BGE and mxbai live in `~/.config/jeeva/models/fastembed/` with their pinned
+snapshots and revision pointers. Ordinary app upgrades and cask removal
+preserve these per-user files. A previous complete installation already
+populated these directories. Run `jeeva clef status` to check the installation.
+Clef inference also requires a Studio build that ships the decision helper.
