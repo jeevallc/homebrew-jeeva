@@ -17,7 +17,7 @@ siblings.each do |other_name|
   other_source = File.read(File.expand_path("../Casks/#{other_name}.rb", __dir__))
   raise "licence installers diverged" unless source.split('cask "', 2).first == other_source.split('cask "', 2).first
 end
-raise "upgrade not offered" unless Version.new(base_cask.version) > Version.new("1.0.0,20261018")
+raise "upgrade not offered" unless Version.new(base_cask.version) > Version.new("1.1.0,20261018")
 raise "auth missing" unless base_cask.url.specs[:headers] == ["@#{Dir.home}/.config/jeeva/download-header"]
 postflight = base_cask.artifacts.find { |artifact| artifact.is_a?(Cask::Artifact::PostflightSteps) }
 step = postflight.steps.fetch(0)
