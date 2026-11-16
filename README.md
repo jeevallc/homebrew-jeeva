@@ -90,6 +90,28 @@ installing or upgrading so Homebrew understands it.
 
 The 1.11.0 cask uses the standard app build. Video tools can be installed from Settings > Studio; the larger release variant with bundled video tools is not selected by this cask.
 
+## Dependencies pack
+
+Once Jeeva ships its slim app, the embedded browser's Chromium, Clef's MLX shaders
+and Studio's video tools and Python come in one separate file, the dependencies
+pack, installed once into `~/.config/jeeva/dependencies/pack` and reused by later
+app updates. It uses the same download key:
+
+```sh
+brew update
+brew install --cask jeevallc/jeeva/jeeva-studio jeevallc/jeeva/jeeva-dependencies
+```
+
+The cask downloads `releases/v1-dependencies/Jeeva-dependencies-<key>-arm64.dmg`
+and runs the installed `jeeva dependencies --install --from` on it, which checks
+the file against the app's pin and every file against the pack's manifest. Its
+version is the pack's key: bump `version` and `sha256` from the Jeeva release's
+`crates/jeeva-services/src/dependencies.pin` whenever a release pins a new pack.
+`brew upgrade` then downloads it again; otherwise app upgrades reuse it.
+
+The pack is not published yet, and its checksum here is a placeholder, so the
+cask cannot install anything until it is.
+
 ## Bundled video tools
 
 `jeeva-studio-bundled` installs the same app with Node.js, HyperFrames, headless

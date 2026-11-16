@@ -25,7 +25,8 @@ await request(licence);
 assert.equal(await (await request(licence, key, 'HEAD')).text(), '');
 await request('/releases/v0.59.0-app/Jeeva-Studio-v0.59.0-app-arm64.dmg');
 await request('/releases/v0.59.0-app/Jeeva-test.zip');
-for (const path of ['/releases/licences/latest.json', '/releases/other.json', `${licence}?key=test`]) {
+await request('/releases/v1-dependencies/Jeeva-dependencies-80a6f2dcb5fcb8e5-arm64.dmg');
+for (const path of ['/releases/licences/latest.json', '/releases/other.json', '/releases/dependencies/Jeeva-dependencies-80a6f2dcb5fcb8e5-arm64.dmg', `${licence}?key=test`]) {
   await request(path, key, 'GET', 404);
 }
 await request(licence, key, 'POST', 405);
