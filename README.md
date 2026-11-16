@@ -140,8 +140,10 @@ version is the pack's key: bump `version` and `sha256` from the Jeeva release's
 `crates/jeeva-services/src/dependencies.pin` whenever a release pins a new pack.
 `brew upgrade` then downloads it again; otherwise app upgrades reuse it.
 
-The pack is not published yet, and its checksum here is a placeholder, so the
-cask cannot install anything until it is.
+The first pack, `80a6f2dcb5fcb8e5`, is 772 MB to download and 1.6 GB
+installed. It is published in R2; the cask installs it once a Jeeva release
+that pins it (the slim app) is installed, since `jeeva dependencies` takes only
+the file its own build names.
 
 ## Bundled video tools
 

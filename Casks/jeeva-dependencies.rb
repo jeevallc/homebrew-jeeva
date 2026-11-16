@@ -7,9 +7,7 @@
 # set from that pin when a release publishes a new pack.
 cask "jeeva-dependencies" do
   version "80a6f2dcb5fcb8e5"
-  # Not published yet: replaced by the pin's sha256 when the pack is uploaded. Until then
-  # every download fails its checksum, so nothing is installed.
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  sha256 "60aaef5afa7116c716d54fb870649f0bce2c19c285b6cf2abab5f98204828992"
 
   url "https://downloads.jeeva.io/releases/v1-dependencies/Jeeva-dependencies-#{version}-arm64.dmg",
       header: "@#{Dir.home}/.config/jeeva/download-header"
