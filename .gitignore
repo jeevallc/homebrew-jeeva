@@ -1,0 +1,3 @@
+# Download-key lists belong in the vault, never here.
+*keys*.json
+*.labels.json

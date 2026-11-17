@@ -72,10 +72,41 @@ preserve the `DOWNLOAD_KEY_HASHES` secret, the `RELEASES` R2 binding, and its
 existing domain; do not enable public bucket access. The signing secret is not
 needed to distribute an already signed file.
 
+## Issuing download keys
+
+Each person gets a key of their own. The Worker keeps only each key's SHA-256,
+as a JSON list in its `DOWNLOAD_KEY_HASHES` secret, and a Cloudflare secret
+cannot be read back, so keep the list in a file outside this repository (in
+the vault), with `scripts/download-keys.mjs` editing it and setting the
+secret from it:
+
+```sh
+# A new key for one person: its hash is added to the file, the key is printed once.
+node scripts/download-keys.mjs issue ~/vault/jeeva-download-keys.json --label "sam@example.com"
+# Set the Worker's secret from the file (wrangler signs in to Cloudflare).
+node scripts/download-keys.mjs put ~/vault/jeeva-download-keys.json
+# Who holds a key, and revoking one by its label or hash, then setting the secret again.
+node scripts/download-keys.mjs list ~/vault/jeeva-download-keys.json
+node scripts/download-keys.mjs revoke ~/vault/jeeva-download-keys.json "sam@example.com"
+node scripts/download-keys.mjs put ~/vault/jeeva-download-keys.json
+```
+
+The key is shown once and kept nowhere: hand it to the person privately, and
+they save it as the install section above describes. A sidecar file beside
+the list (`<file>.labels.json`) records who each hash was issued to and when.
+Both files are written owner-only. The last key is never revoked, since the
+Worker answers 503 to every download with an empty list. Revoking blocks new
+downloads, not an app already installed.
+
+The first time, copy the hashes the Worker holds today into the file (they are
+not readable from Cloudflare: take them from wherever the secret was last set),
+or issue new keys to everyone and set the secret once.
+
 Validation:
 
 ```sh
 node tests/downloads.mjs
+node tests/download_keys.mjs
 HOMEBREW_DEVELOPER=1 brew ruby tests/licence_postflight.rb
 # Optional live test: requires the app in ~/Applications and a download key; installs the licence.
 HOMEBREW_DEVELOPER=1 brew ruby -- tests/licence_postflight.rb --sandbox
@@ -89,6 +120,30 @@ The cask uses Homebrew's current `postflight_steps` API. Run `brew update` befor
 installing or upgrading so Homebrew understands it.
 
 The 1.11.0 cask uses the standard app build. Video tools can be installed from Settings > Studio; the larger release variant with bundled video tools is not selected by this cask.
+
+## Dependencies pack
+
+Once Jeeva ships its slim app, the embedded browser's Chromium, Clef's MLX shaders
+and Studio's video tools and Python come in one separate file, the dependencies
+pack, installed once into `~/.config/jeeva/dependencies/pack` and reused by later
+app updates. It uses the same download key:
+
+```sh
+brew update
+brew install --cask jeevallc/jeeva/jeeva-studio jeevallc/jeeva/jeeva-dependencies
+```
+
+The cask downloads `releases/v1-dependencies/Jeeva-dependencies-<key>-arm64.dmg`
+and runs the installed `jeeva dependencies --install --from` on it, which checks
+the file against the app's pin and every file against the pack's manifest. Its
+version is the pack's key: bump `version` and `sha256` from the Jeeva release's
+`crates/jeeva-services/src/dependencies.pin` whenever a release pins a new pack.
+`brew upgrade` then downloads it again; otherwise app upgrades reuse it.
+
+The first pack, `80a6f2dcb5fcb8e5`, is 772 MB to download and 1.6 GB
+installed. It is published in R2; the cask installs it once a Jeeva release
+that pins it (the slim app) is installed, since `jeeva dependencies` takes only
+the file its own build names.
 
 ## Bundled video tools
 
