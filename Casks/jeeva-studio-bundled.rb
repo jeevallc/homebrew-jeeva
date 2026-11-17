@@ -42,6 +42,10 @@ cask "jeeva-studio-bundled" do
   desc "Native workspace for coding agents with bundled video tools"
   homepage "https://jeeva.io/"
 
+  # From 1.12 the app is slim and its video tools come in the dependencies pack: install
+  # jeeva-dependencies, which brings jeeva-studio with it.
+  deprecate! date: "2026-11-16", because: :discontinued, replacement_cask: "jeeva-dependencies"
+
   depends_on arch: :arm64
   depends_on macos: :sonoma
 
