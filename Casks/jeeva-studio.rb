@@ -33,10 +33,10 @@ end
 RUBY
 
 cask "jeeva-studio" do
-  version "1.11.0,20261018"
-  sha256 "4b8304d75d8d84bd3010eccce4256bbc3407bf7dd239f9c59ba53bf2e3f3990f"
+  version "1.12.0,20261018"
+  sha256 "3be6bc5bf37e065a061a0ea62c13cb8c98b99d4089f6471d831e932176cba01c"
 
-  url "https://downloads.jeeva.io/releases/v1.11.0-app/Jeeva-v1.11.0-app-arm64.dmg",
+  url "https://downloads.jeeva.io/releases/v1.12.0-app/Jeeva-v1.12.0-app-arm64.dmg",
       header: "@#{Dir.home}/.config/jeeva/download-header"
   name "Jeeva Studio"
   desc "Native workspace for coding agents"

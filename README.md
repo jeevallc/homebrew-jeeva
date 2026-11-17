@@ -31,9 +31,9 @@ Homebrew installs the app into `/Applications` by default. Where that directory 
 not writable, use `--appdir="$HOME/Applications"`. The cask will install `Jeeva Studio.app` and link the
 bundled `jeeva` CLI into Homebrew's bin directory.
 
-Version 1.11.0 targets Apple Silicon and macOS 14 or later. The app and DMG are
+Version 1.12.0 targets Apple Silicon and macOS 14 or later. The app and DMG are
 signed, notarized and stapled. The CLI currently reports its crate version
-(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`1.11.0`).
+(`jeeva-cli 0.1.0`); Homebrew tracks the application release version (`1.12.0`).
 Revoking a download key blocks new downloads, not use of a previously downloaded
 app or a copy in Homebrew's local cache.
 
@@ -49,7 +49,7 @@ signing secret belongs in this public repository.
 
 The current licence expires on **2026-11-17 at 23:25 UTC**. Homebrew reports the
 cask as `1.11.0,20261018`: the second component identifies the licence delivery,
-and the signed licence remains compatible with 1.11.0. Upgrade from an older
+and the signed licence remains compatible with 1.12.0. Upgrade from an older
 release with `brew update` followed by
 `brew upgrade --cask jeevallc/jeeva/jeeva-studio`. `brew update` alone only updates
 metadata. If retrying a failed postflight on an installed current version, use
@@ -119,11 +119,14 @@ context because the sandbox replaces the child process’s home directory.
 The cask uses Homebrew's current `postflight_steps` API. Run `brew update` before
 installing or upgrading so Homebrew understands it.
 
-The 1.11.0 cask uses the standard app build. Video tools can be installed from Settings > Studio; the larger release variant with bundled video tools is not selected by this cask.
+From 1.12.0 the app is slim: there is no larger variant with bundled video tools, and
+`jeeva-studio-bundled` is deprecated in favour of `jeeva-dependencies`. Uninstall it
+first (`brew uninstall --cask jeevallc/jeeva/jeeva-studio-bundled`); the two casks
+install the same app and conflict.
 
 ## Dependencies pack
 
-Once Jeeva ships its slim app, the embedded browser's Chromium, Clef's MLX shaders
+From 1.12.0 the app is slim: the embedded browser's Chromium, Clef's MLX shaders
 and Studio's video tools and Python come in one separate file, the dependencies
 pack, installed once into `~/.config/jeeva/dependencies/pack` and reused by later
 app updates. It uses the same download key:
