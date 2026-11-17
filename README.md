@@ -47,10 +47,9 @@ download, checksum, validity or signature check fails the step without replacing
 an existing licence. Temporary downloads are removed. No licence or vendor
 signing secret belongs in this public repository.
 
-The current licence expires on **2026-11-17 at 23:25 UTC**. Homebrew reports the
-cask as `1.11.0,20261018`: the second component identifies the licence delivery,
-and the signed licence remains compatible with 1.12.0. Upgrade from an older
-release with `brew update` followed by
+The current licence expires on **2026-12-17 at 09:58 UTC**. Homebrew reports the
+cask as `1.12.0,20261117`: the second component identifies the licence delivery.
+Upgrade from an older release with `brew update` followed by
 `brew upgrade --cask jeevallc/jeeva/jeeva-studio`. `brew update` alone only updates
 metadata. If retrying a failed postflight on an installed current version, use
 `brew reinstall --cask jeevallc/jeeva/jeeva-studio` (add

@@ -12,9 +12,9 @@ Dir.mktmpdir("jeeva-licence-") do |directory|
                         "--connect-timeout", "30", "--max-time", "120",
                         "--header", "@#{config_directory}/download-header",
                         "--output", licence_file,
-                        "https://downloads.jeeva.io/releases/licences/e6f5633f6e26008da4dcfc7f26f81f9b8d6c8a396ae6c294d2cd4405ae25b32f.json"])
+                        "https://downloads.jeeva.io/releases/licences/f802ae944b926e68d7f8b52b3ee211d7b56a7ac563030ede775d6ab950d4d67b.json"])
   raise "Jeeva licence download failed; the existing licence was not changed." unless downloaded
-  unless Digest::SHA256.file(licence_file).hexdigest == "e6f5633f6e26008da4dcfc7f26f81f9b8d6c8a396ae6c294d2cd4405ae25b32f"
+  unless Digest::SHA256.file(licence_file).hexdigest == "f802ae944b926e68d7f8b52b3ee211d7b56a7ac563030ede775d6ab950d4d67b"
     raise "Jeeva licence checksum mismatch; the existing licence was not changed."
   end
 
@@ -33,7 +33,7 @@ end
 RUBY
 
 cask "jeeva-studio" do
-  version "1.12.0,20261018"
+  version "1.12.0,20261117"
   sha256 "3be6bc5bf37e065a061a0ea62c13cb8c98b99d4089f6471d831e932176cba01c"
 
   url "https://downloads.jeeva.io/releases/v1.12.0-app/Jeeva-v1.12.0-app-arm64.dmg",
