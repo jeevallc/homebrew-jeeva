@@ -22,10 +22,13 @@ cask "jeeva-dependencies" do
   # Kept whole: Jeeva checks the disk image against its pin before it opens it.
   container type: :naked
 
-  postflight_steps do
-    run "#{HOMEBREW_PREFIX}/bin/jeeva",
-        args: ["dependencies", "--install", "--from",
-               "{{staged_path}}/Jeeva-dependencies-#{version}-arm64.dmg"],
-        writable_paths: [".config/jeeva"], writable_base: :home
+  # A block rather than steps: Homebrew's step sandbox gives the step a home of its own
+  # (where Jeeva finds no licence) and does not let it open a disk image.
+  postflight do
+    system_command "#{HOMEBREW_PREFIX}/bin/jeeva",
+                   args:         ["dependencies", "--install", "--from",
+                                  "#{staged_path}/Jeeva-dependencies-#{version}-arm64.dmg"],
+                   env:          { "JEEVA_CONFIG_DIR" => "#{Dir.home}/.config/jeeva" },
+                   print_stdout: true
   end
 end
