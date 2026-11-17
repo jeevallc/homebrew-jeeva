@@ -24,7 +24,7 @@ cask "jeeva-dependencies" do
 
   # A block rather than steps: Homebrew's step sandbox gives the step a home of its own
   # (where Jeeva finds no licence) and does not let it open a disk image.
-  postflight do # rubocop:disable Cask/InstallSteps
+  postflight do
     system_command "#{HOMEBREW_PREFIX}/bin/jeeva",
                    args:         ["dependencies", "--install", "--from",
                                   "#{staged_path}/Jeeva-dependencies-#{version}-arm64.dmg"],
